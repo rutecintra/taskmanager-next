@@ -1,6 +1,6 @@
 import { Box, Heading, Text, Badge, ButtonGroup, Button, Flex } from "@chakra-ui/react";
 
-export default function TaskCard({ task, onEdit, onDelete }) {
+export default function TaskCard({ task, onEdit, onDelete, onDragStart }) {
   const statusColor = {
     "pending": "yellow",
     "in-progress": "blue",
@@ -14,7 +14,14 @@ export default function TaskCard({ task, onEdit, onDelete }) {
   };
 
   return (
-    <Box p={4} borderWidth={1} borderRadius="md" mb={3}>
+    <Box
+      p={4}
+      borderWidth={1}
+      borderRadius="md"
+      mb={3}
+      draggable
+      onDragStart={e => onDragStart && onDragStart(e, task)}
+    >
       <Flex justifyContent="space-between" alignItems="center" mb={2}>
         <Heading size="sm">{task.title}</Heading>
         <Badge colorScheme={statusColor[task.status]}>{statusText[task.status]}</Badge>

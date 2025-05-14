@@ -1,21 +1,25 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Box, Container, useToast } from "@chakra-ui/react";
+import { Box, Container, useToast, useDisclosure } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import TaskForm from "../components/TaskForm";
 import TaskList from "../components/TaskList";
 import Navbar from "../components/Navbar";
+import KanbanBoard from "../components/KanbanBoard";
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton } from "@chakra-ui/react";
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   
   const [tasks, setTasks] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
   const [editingTask, setEditingTask] = useState(null);
+  const [initialStatus, setInitialStatus] = useState("pending");
   
   // Redireciona para login se não estiver autenticado
   useEffect(() => {
@@ -124,6 +128,18 @@ export default function Dashboard() {
     }
   };
   
+  const handleOpenCreateTask = (status = "pending") => {
+    setInitialStatus(status);
+    onOpen();
+  };
+  
+  const handleMoveTask = async (taskId, newStatus) => {
+    const task = tasks.find(t => t.id == taskId);
+    if (task && task.status !== newStatus) {
+      await handleUpdateTask({ ...task, status: newStatus });
+    }
+  };
+  
   // Se estiver carregando ou não autenticado, não renderiza o conteúdo
   if (status === "loading" || status === "unauthenticated") {
     return null;
@@ -131,9 +147,10 @@ export default function Dashboard() {
   
   return (
     <Box>
-      <Navbar />
+      <Navbar onCreateTask={() => handleOpenCreateTask()} />
       <Container maxW="container.xl" py={8}>
-        <Box mb={8}>
+        {/* Remova ou comente este bloco abaixo */}
+        {/* <Box mb={8}>
           {editingTask ? (
             <>
               <TaskForm 
@@ -153,16 +170,33 @@ export default function Dashboard() {
           ) : (
             <TaskForm onSubmit={handleAddTask} />
           )}
-        </Box>
+        </Box> */}
         
-        <TaskList 
+        <KanbanBoard
           tasks={tasks}
-          statusFilter={statusFilter}
-          onStatusChange={setStatusFilter}
           onEdit={setEditingTask}
           onDelete={handleDeleteTask}
+          onCreateTask={handleOpenCreateTask}
+          onMoveTask={handleMoveTask}
         />
       </Container>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Criar Tarefa</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <TaskForm
+              onSubmit={async (task) => {
+                await handleAddTask(task);
+                onClose();
+              }}
+              initialData={{ status: initialStatus }}
+              mode="create"
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 }

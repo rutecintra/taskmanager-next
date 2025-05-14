@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Task Manager
 
-## Getting Started
+Um gerenciador de tarefas simples com visualização em Kanban, autenticação de usuário e suporte a drag and drop entre colunas. Desenvolvido com Next.js, React, Chakra UI e NextAuth.
 
-First, run the development server:
+![Tela do Task Manager](./public/tela.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Funcionalidades
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Autenticação de Usuário** (NextAuth)
+- **Visualização Kanban**: Tarefas organizadas em colunas (Pendente, Em Progresso, Concluída)
+- **Criação, edição e exclusão de tarefas**
+- **Drag and Drop**: Arraste tarefas entre colunas para mudar o status
+- **Modal para criar/editar tarefas**
+- **Feedback visual com Chakra UI**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tecnologias Utilizadas
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [Next.js](https://nextjs.org/)
+- [React](https://react.dev/)
+- [Chakra UI](https://chakra-ui.com/)
+- [NextAuth.js](https://next-auth.js.org/)
 
-## Learn More
+## Instalação
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/seu-usuario/taskmanager.git
+   cd taskmanager
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Instale as dependências:**
+   ```bash
+   npm install
+   # ou
+   yarn install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Configuração do NextAuth:**
+   - Crie um arquivo `.env.local` na raiz do projeto e adicione as variáveis necessárias para o NextAuth (exemplo de configuração com provider de email/senha ou GitHub).
 
-## Deploy on Vercel
+4. **Inicie o servidor de desenvolvimento:**
+   ```bash
+   npm run dev
+   # ou
+   yarn dev
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. **Acesse:**
+   ```
+   http://localhost:3000
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Como Usar
+
+1. **Login:**  
+   Faça login para acessar o dashboard.
+
+2. **Criar Tarefa:**  
+   Clique em "Criar Tarefa" em qualquer coluna para adicionar uma nova tarefa.
+
+3. **Editar/Excluir:**  
+   Use os botões "Editar" e "Excluir" em cada card de tarefa.
+
+4. **Mover Tarefas:**  
+   Arraste e solte tarefas entre as colunas para mudar o status.
+
+## Observações
+
+- O backend de tarefas é um mock em memória (não persistente).
+- Para produção, adapte a API para usar um banco de dados real e configure o NextAuth com provedores seguros.
+
+## Licença
+
+MIT
