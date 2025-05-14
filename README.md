@@ -2,7 +2,7 @@
 
 Um gerenciador de tarefas simples com visualização em Kanban, autenticação de usuário e suporte a drag and drop entre colunas. Desenvolvido com Next.js, React, Chakra UI e NextAuth.
 
-![Tela do Task Manager](./public/tela.png)
+![Tela do Task Manager](assets/tela.png)
 
 ## Funcionalidades
 
